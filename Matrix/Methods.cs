@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Matrix
 {
-    public class Program
+    internal interface Methods
     {
-        static void Main(string[] args)
-        {
-
-        }
+        void prompt();
+        void print();
+        void generate();
     }
 }

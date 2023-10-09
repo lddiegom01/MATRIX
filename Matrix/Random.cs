@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Matrix
 {
-    public class Program
+    internal class Random
     {
-        static void Main(string[] args)
+        public int aleatorio(int min,int max)
         {
-
-        }
+            Random random = new Random();
+            return random.Next(min, max + 1);
     }
 }

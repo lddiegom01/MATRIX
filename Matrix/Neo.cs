@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Matrix
 {
-    public class Program
+    internal class Neo : Personajes
     {
-        static void Main(string[] args)
-        {
-
-        }
     }
 }
