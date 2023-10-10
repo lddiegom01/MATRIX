@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 
 namespace Matrix
 {
-    internal class Random
+    class RandomNumber
     {
-        public int aleatorio(int min,int max)
+        private static readonly Random r = new Random();
+        private static readonly object syncLock = new object();
+        /**
+       * Method that extracts of Sample its amount and increases the number of valid samples
+       **/
+        public static int Aleatorio(int min, int max)
         {
-            Random random = new Random();
-            return random.Next(min, max + 1);
+
+            lock (syncLock)
+            {
+                return r.Next(min, max);
+            }
+        }
+
     }
 }
