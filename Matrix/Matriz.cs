@@ -32,6 +32,7 @@ namespace Matrix
         }
 
         //Devuelve solo la ciudad de un personaje de la lista 
+
         public string getCiudadDelPersonaje(int num)
         {
             return this.listaPersonajes[num].getCiudad();
