@@ -79,33 +79,9 @@ namespace Matrix
                 Console.WriteLine("la matriz no esta llena");
             }
 
-            //Buscamos la celda de smith y neo
-            int xneo;
-            int yneo;
-            int xsmith;
-            int ysmith;
-
-            for (int fila = 0; fila < matrix.getx(); fila++)
-            {
-                for (int columna = 0; columna < matrix.gety(); columna++)
-                {
-                    if (matrix.getPersonajeCelda(fila, columna) is Neo)
-                    {
-                        xneo = fila;
-                        yneo=columna;
-                    }
-                    else if (matrix.getPersonajeCelda(fila, columna) is Smith)
-                    {
-                        xsmith=fila;
-                        ysmith=columna;
-                    }
-                }
-            }
-
             //Varibles del tema de los segundos
             int max_time = 20;
             int time = 1;
-            bool listaTiene = true;
             //Bucle para los segundos 
             do
             {
@@ -115,16 +91,19 @@ namespace Matrix
                 }
 
                 if (time % 2 == 0)
-                {
+                { 
                     Console.WriteLine("HA PASADO 2 SEGUNDOS");
 
                 }
                 if (time % 5 == 0)
                 {
+                    int xneo=matrix.getxneo();
+                    int yneo=matrix.getyneo();
+                    matrix.turnoNeo(xneo, yneo, neo);
                     Console.WriteLine("HA PASADO 5 SEGUNDOS");
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(2000);
                 time += 1;
 
             } while ((time <= max_time) );

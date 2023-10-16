@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,86 @@ namespace Matrix
         {
             return this.matrizz[x,y];
         }
+        public Smith getSmithCelda(int x,int y)
+        {
+            if(this.matrizz[x, y] is Smith)
+            {
+                return (Smith)this.matrizz[x, y];
+            } else
+            {
+                return null;
+            }
+        }
 
+        public int getxneo()
+        {
+            int x = 0;
+            for (int fila = 0; fila < this.getx(); fila++)
+            {
+                for (int columna = 0; columna < this.gety(); columna++)
+                {
+                    if (this.getPersonajeCelda(fila, columna) is Neo)
+                    {
+                        x=fila;
+                    }
+                }
+            }
+            return x;
+        }
+        public int getyneo()
+        {
+            int y = 0;
+            for (int fila = 0; fila < this.getx(); fila++)
+            {
+                for (int columna = 0; columna < this.gety(); columna++)
+                {
+                    if (this.getPersonajeCelda(fila, columna) is Neo)
+                    {
+                        y=columna;
+                    }
+                }
+            }
+            return y;
+        }
+
+        public int getxSmith()
+        {
+            int x = 0;
+            for (int fila = 0; fila < this.getx(); fila++)
+            {
+                for (int columna = 0; columna < this.gety(); columna++)
+                {
+                    if (this.getPersonajeCelda(fila, columna) is Smith)
+                    {
+                        x=fila;
+                    }
+                }
+            }
+            return x;
+        }
+        public int getySmith()
+        {
+            int y = 0;
+            for (int fila = 0; fila < this.getx(); fila++)
+            {
+                for (int columna = 0; columna < this.gety(); columna++)
+                {
+                    if (this.getPersonajeCelda(fila, columna) is Smith)
+                    {
+                        y=columna;
+                    }
+                }
+            }
+            return y;
+        }
+
+        public void setPersonajeCelda (int x, int y,Personaje personaje)
+        {
+            if(personaje is Personaje)
+            {
+                this.matrizz[x,y] = personaje;
+            }
+        }
         //Devuelve la lista de personajes
         public List<Personaje> getList()
         {
@@ -137,6 +217,7 @@ namespace Matrix
             this.matrizz[x, y]=pj;
         }
 
+        //Llena la matriz
         public void llenarMatriz(List<Personaje> list)
         {
             int fila = 0;
@@ -179,6 +260,7 @@ namespace Matrix
             }
         }
 
+        //Turno de los personajes
         public void turnoPersonajes()
         {
             int xmatriz = this.getx();
@@ -211,6 +293,47 @@ namespace Matrix
             }
             this.pintarMatriz();
             Console.WriteLine("HA PASADO 1 SEGUNDO");
+        }
+
+        //Turno de Neo
+        public void turnoNeo(int xneo, int yneo, Neo neo)
+        {
+            if(neo.isElegido())
+            {
+                for (int x = -1; x<1; x++)
+                {
+                    for (int y = -1; y<1; y++)
+                    {
+                        if (this.matrizz[x,y] is null)
+                        {
+                            Personaje ca = this.getPersonaje();
+                            setPersonajeCelda(x,y,ca);
+                            //matrix.eliminarDeLaLista();
+                        }
+                    }
+                } 
+            }
+
+            int nuevox = RandomNumber.Aleatorio(0,(int)this.getx()); 
+            int nuevoy = RandomNumber.Aleatorio(0,(int)this.gety());
+            
+            if (this.matrizz[nuevox,nuevoy] is null )
+            {
+                setPersonajeCelda(nuevox, nuevoy, neo);
+            } 
+            else if (this.matrizz[nuevox, nuevoy] is Smith)
+            {
+                Smith smithAuxilio = this.getSmithCelda(nuevox,nuevoy);
+                setPersonajeCelda(nuevox, nuevoy, neo);
+                setPersonajeCelda(xneo, yneo, smithAuxilio);
+            }
+            else
+            {
+                Personaje personajeAuxilio = this.getPersonajeCelda(nuevox, nuevoy);
+                setPersonajeCelda(nuevox, nuevoy, neo);
+                setPersonajeCelda(xneo, yneo, personajeAuxilio);
+            }
+            Console.Write("Neo ha actuado");
         }
     }
 }
