@@ -11,7 +11,7 @@ namespace Matrix
         static void Main(string[] args)
         {
             //Creamos la matrix
-            Matriz matrix= new Matriz(15, 15);
+            Matriz matrix= new Matriz();
 
             //Creamos a Neo
             Neo neo = new Neo(true, 0, 22);
@@ -40,6 +40,28 @@ namespace Matrix
                 Console.WriteLine(matrix.getCiudadDelPersonaje(elegido));
 
             }
+
+            Personaje c = new Personaje(5, 18);
+
+            matrix.meterEnElTablero(neo);
+
+            matrix.meterEnElTablero(smith);
+
+            matrix.meterEnElTablero(c);
+
+            matrix.pintarMatriz();
+
+
+            //Llenamos la matriz de personajes
+
+            while (!matrix.estaLlena())
+            {
+                Personaje ca = matrix.getPersonaje();
+                matrix.meterEnElTablero(ca);
+            }
+            
+            matrix.pintarMatriz();
+
 
         }
     }
