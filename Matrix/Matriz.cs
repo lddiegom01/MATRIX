@@ -218,49 +218,6 @@ namespace Matrix
             this.matrizz[x, y]=pj;
         }
 
-        //Llena la matriz
-        public void llenarMatriz(List<Personaje> list)
-        {
-            int fila = 0;
-            int columna = 0;
-            while (!this.estaLlena())
-            {
-                for (int i = 0; i < fila; i++)
-                {
-                    for (int j = 0; j < columna; j++)
-                    {
-                        if (i * columna + j < list.Count)
-                        {
-                            if (this.matrizz[i,j] == null)
-                            {
-                                this.matrizz[i, j] = list[i * columna + j];
-                            }
-                            
-                        }
-                        else
-                        {
-                            // Puedes establecer una referencia nula o un valor por defecto si la lista es más pequeña que la matriz
-                            this.matrizz[i, j] = null; // o new Personaje("ValorPorDefecto");
-                        }
-                    }
-                }
-            }
-        }
-
-        public void meterPersonaje(Personaje personaje)
-        {
-            int fila = RandomNumber.Aleatorio(0, this.matrizz.GetLength(0));
-            int columna = RandomNumber.Aleatorio(0, this.matrizz.GetLength(1));
-
-            if(personaje is Personaje)
-            {
-                if(this.matrizz == null)
-                {
-                    this.matrizz[fila, columna] = personaje;
-                }
-            }
-        }
-
         //Turno de los personajes
         public bool turnoPersonajes()
         {
@@ -295,7 +252,6 @@ namespace Matrix
                 }
             }
             this.pintarMatriz();
-            Console.WriteLine("HA PASADO 1 SEGUNDO");
             return true;
         }
 
@@ -304,11 +260,13 @@ namespace Matrix
         {
             if(neo.isElegido())
             {
+                Console.WriteLine("Neo es el elegido");
+
                 for (int x = -1; x<1; x++)
                 {
                     for (int y = -1; y<1; y++)
                     {
-                        if (this.matrizz[x,y] is null)
+                        if (this.matrizz[xneo-x,yneo-y] is null)
                         {
                             Personaje ca = this.getPersonaje();
                             setPersonajeCelda(x,y,ca);
@@ -341,7 +299,7 @@ namespace Matrix
                 setPersonajeCelda(nuevox, nuevoy, neo);
                 setPersonajeCelda(xneo, yneo, personajeAuxilio);
             }
-            Console.Write("Neo ha actuado");
+            Console.WriteLine("Neo ha actuado");
             return true;
         }
 
@@ -401,7 +359,7 @@ namespace Matrix
                     }
                     auxRecorrido[i, 1]=ysmith;
 
-                    if (this.matrizz[xsmith,ysmith] is Personaje && !(this.matrizz[xsmith,ysmith] is Neo && (smith.getCapaInfec() !=0)))
+                    if (this.matrizz[xsmith,ysmith] is Personaje && !(this.matrizz[xsmith,ysmith] is Neo) && (smith.getCapaInfec() !=0))
                     {
                         this.matrizz[xsmith, ysmith]=null;
                     }

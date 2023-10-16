@@ -48,36 +48,24 @@ namespace Matrix
 
             matrix.meterEnElTablero(smith);
 
-            //Personaje ca = matrix.getPersonaje();
-            // matrix.meterEnElTablero(ca);
-
-            /**
-            if (matrix.estaLlena())
-            {
-                Console.WriteLine("esta llena");
-            } else
-            {
-                Console.WriteLine("no esta llena");
-            }
-            */
-
             //Llenamos la matriz de personajes
             while (!matrix.estaLlena())
             {
                 Personaje ca = matrix.getPersonaje();
                 matrix.meterEnElTablero(ca);
             }
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
+            Console.WriteLine("El tablero inicial es: ");
             matrix.pintarMatriz();
 
-            if (matrix.estaLlena())
-            {
-                Console.WriteLine("la matriz esta llena");
-            }
-            else
-            {
-                Console.WriteLine("la matriz no esta llena");
-            }
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Empieza el juego");
+            Console.WriteLine();
+            Console.WriteLine();
 
             //Varibles del tema de los segundos
             int max_time = 20;
@@ -103,7 +91,6 @@ namespace Matrix
                     int xneo=matrix.getxneo();
                     int yneo=matrix.getyneo();
                     continuaElPrograma = matrix.turnoNeo(xneo, yneo, neo);
-                    Console.WriteLine("HA PASADO 5 SEGUNDOS");
                 }
 
                 Thread.Sleep(1000);
@@ -119,7 +106,8 @@ namespace Matrix
             {
                 Console.WriteLine("Se acabo el tiempo");
             }
-
+            Console.WriteLine("El tablero ha quedado asi: ");
+            matrix.pintarMatriz();
         }
     }
 }
