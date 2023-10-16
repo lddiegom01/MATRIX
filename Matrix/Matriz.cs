@@ -11,7 +11,7 @@ namespace Matrix
     {
         readonly int filas = 15;
         readonly int columnas = 15;
-        List<Personaje> listaPersonajes = new List<Personaje>();
+        public List<Personaje> listaPersonajes = new List<Personaje>();
         Personaje[,] matrizz;
 
         public Matriz()
@@ -47,12 +47,18 @@ namespace Matrix
         //Mete en el tablero un personaje metido por parametro
         public void meterEnElTablero(Personaje person)
         {
-            int x = RandomNumber.Aleatorio(0, 14);
-            int y = RandomNumber.Aleatorio(0, 14);
-            if (this.matrizz[x,y] == null)
+            bool vacio = true;
+            while (vacio) 
             {
-                this.matrizz[x, y]=person;
+                int x = RandomNumber.Aleatorio(0, 14);
+                int y = RandomNumber.Aleatorio(0, 14);
+                if (this.matrizz[x, y] == null)
+                {
+                    this.matrizz[x, y]=person;
+                    vacio = false;
+                }
             }
+            
             
         }
 

@@ -49,18 +49,31 @@ namespace Matrix
 
             matrix.meterEnElTablero(c);
 
+            //Personaje ca = matrix.getPersonaje();
+            // matrix.meterEnElTablero(ca);
+
             matrix.pintarMatriz();
 
 
-            //Llenamos la matriz de personajes
+            if (matrix.estaLlena())
+            {
+                Console.WriteLine("esta llena");
+            } else
+            {
+                Console.Write("no esta llena");
+            }
 
+            //Llenamos la matriz de personajes
             while (!matrix.estaLlena())
             {
                 Personaje ca = matrix.getPersonaje();
                 matrix.meterEnElTablero(ca);
             }
-            
+
             matrix.pintarMatriz();
+
+
+            //matrix.pintarMatriz();
 
 
         }
