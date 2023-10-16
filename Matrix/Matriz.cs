@@ -111,11 +111,6 @@ namespace Matrix
                 this.matrizz[x,y] = personaje;
             }
         }
-        //Devuelve la lista de personajes
-        public List<Personaje> getList()
-        {
-            return this.listaPersonajes;
-        }
 
         //Metodo que añade un personaje a la lista de personajes de la matriz 
         public void addPersonaje(Personaje personaje) 
@@ -123,11 +118,6 @@ namespace Matrix
             this.listaPersonajes.Add(personaje);
         }
 
-        //Metodo que elimina el primer personaje de la lista
-        public void eliminarDeLaLista()
-        {
-            this.listaPersonajes.RemoveAt(0);
-        }
         //Devuelve solo el nombre de un personaje de la lista
         public string getNombreDePersonaje(int num)
         {
@@ -256,20 +246,20 @@ namespace Matrix
         }
 
         //Turno de Neo
-        public bool turnoNeo(int xneo, int yneo, Neo neo)
+        public bool turnoNeo(Neo neo)
         {
-            if(neo.isElegido())
+            int xneo = this.getxneo();
+            int yneo = this.getyneo();
+            neo.setElegido();
+            if(neo.getElegido())
             {
-                Console.WriteLine("Neo es el elegido");
-
                 for (int x = -1; x<1; x++)
                 {
                     for (int y = -1; y<1; y++)
                     {
-                        if (this.matrizz[xneo-x,yneo-y] is null)
+                        if (((xneo-x)>0) && ((xneo-x)<this.matrizz.GetLength(0))&&((yneo-y)>0) && ((yneo-y)<this.matrizz.GetLength(1))&&(this.matrizz[xneo-x,yneo-y] is null))
                         {
-                            Personaje ca = this.getPersonaje();
-                            setPersonajeCelda(x,y,ca);
+                            setPersonajeCelda(xneo-x,yneo-y, this.getPersonaje());
                             this.listaPersonajes.RemoveAt(0);
                             if (this.listaPersonajes.Count() == 0)
                             {

@@ -42,7 +42,7 @@ namespace Matrix
 
             }
 
-            Personaje c = new Personaje(5, 18);
+            //Personaje c = new Personaje(5, 18);
 
             matrix.meterEnElTablero(neo);
 
@@ -90,15 +90,15 @@ namespace Matrix
                 { 
                     int xneo=matrix.getxneo();
                     int yneo=matrix.getyneo();
-                    continuaElPrograma = matrix.turnoNeo(xneo, yneo, neo);
+                    continuaElPrograma = matrix.turnoNeo(neo);
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(1);
                 time += 1;
 
             } while ((time <= max_time && continuaElPrograma) );
 
-            if (continuaElPrograma)
+            if (!continuaElPrograma)
             {
                 Console.WriteLine("Se acabo la lista");
             } 

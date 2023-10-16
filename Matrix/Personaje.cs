@@ -92,13 +92,6 @@ namespace Matrix
             return this.localizacion.getCiudad();
         }
 
-        //Override del metodo toString() en la clase personaje
-        void toString()
-        {
-            Console.WriteLine("La mortalidad es: "+this.mortalidad+", la localizacion es: "+this.localizacion.ToString()+", " +
-                "la edad es: "+this.edad+", el nombre es: "+this.nombre);
-        }
-
         //Metodos implementados en la interfaz y que por lo tanto tienen que llevarlos aunque sean vacios
         void Methods.generate() { }
         void Methods.print() { }
