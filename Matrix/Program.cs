@@ -12,7 +12,7 @@ namespace Matrix
         static void Main(string[] args)
         {
             //Creamos la matrix
-            Matriz matrix= new Matriz(5);
+            Matriz matrix= new Matriz(6);
 
             //Creamos a Neo
             Neo neo = new Neo(true, 0, 22);
@@ -82,38 +82,44 @@ namespace Matrix
             //Varibles del tema de los segundos
             int max_time = 20;
             int time = 1;
+            bool continuaElPrograma = true;
             //Bucle para los segundos 
             do
             {
                 if (time % 1 == 0)
                 {
-                    matrix.turnoPersonajes();
+                    continuaElPrograma = matrix.turnoPersonajes();
+                    Console.WriteLine("Los personajes han actuado");
                 }
 
-                if (time % 2 == 0)
-                { 
-                    Console.WriteLine("HA PASADO 2 SEGUNDOS");
-
-                }
-                if (time % 5 == 0)
+                if (time % 2 == 0 && continuaElPrograma)
                 {
+                    matrix.turnoSmith(smith);
+                    Console.WriteLine("Smith ha actuado");
+
+                }
+                if (time % 5 == 0 && continuaElPrograma)
+                { 
                     int xneo=matrix.getxneo();
                     int yneo=matrix.getyneo();
-                    matrix.turnoNeo(xneo, yneo, neo);
+                    continuaElPrograma = matrix.turnoNeo(xneo, yneo, neo);
                     Console.WriteLine("HA PASADO 5 SEGUNDOS");
                 }
 
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 time += 1;
 
-            } while ((time <= max_time) );
+            } while ((time <= max_time && continuaElPrograma) );
 
-            if (matrix.getList().Count() == 0)
+            if (continuaElPrograma)
             {
-                Console.WriteLine("se acabo la lista");
+                Console.WriteLine("Se acabo la lista");
+            } 
+            else
+            {
+                Console.WriteLine("Se acabo el tiempo");
             }
 
-            matrix.pintarMatriz();
         }
     }
 }

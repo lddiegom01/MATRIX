@@ -20,9 +20,10 @@ namespace Matrix
 
 
         //Devuelve la capacidad de infectar para comprobar a cuantos puede asesinar vilmente
-        int getCapaInfec() { return capaInfec; }    
+        public int getCapaInfec() { return capaInfec; }
+        public int getCapaMaxInfec() { return capaInfecMax; }
 
         //Actualiza la capacidad de infectar 
-        void setCapaInfec(int numero) { this.capaInfec = numero; }
+        public void setCapaInfec(int numero) { this.capaInfec = numero; }
     }
 }

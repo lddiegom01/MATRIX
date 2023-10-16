@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -261,42 +262,45 @@ namespace Matrix
         }
 
         //Turno de los personajes
-        public void turnoPersonajes()
+        public bool turnoPersonajes()
         {
             int xmatriz = this.getx();
             int ymatriz = this.gety();
-            bool listaTiene = true;
+
             for (int fila = 0; fila < xmatriz; fila++)
             {
                 for (int columna = 0; columna < ymatriz; columna++)
                 {
-                    Personaje personajeCheck = this.getPersonajeCelda(fila, columna);
+                    Personaje personajeCheck = this.matrizz[fila, columna];
                     bool esNeo = personajeCheck is Neo;
                     bool esSmith = personajeCheck is Smith;
 
                     //matamos a los personajes que deben morir y que no sean smith y neo
-                    if (personajeCheck.getMort()>7 && !esNeo && !esSmith)
+                    if(!(personajeCheck is null))
                     {
-                        this.setCelda(fila, columna, null);
-                    }
-                    else
-                    {
-                        personajeCheck.masMuerte();
+                        if (personajeCheck.getMort()>7 && !esNeo && !esSmith)
+                        {
+                            this.setCelda(fila, columna, this.getPersonaje());
+                            this.listaPersonajes.RemoveAt(0);
+                            if(this.listaPersonajes.Count() == 0)
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            personajeCheck.masMuerte();
+                        }
                     }
                 }
             }
-            while (!this.estaLlena())
-            {
-                Personaje ca = this.getPersonaje();
-                this.meterEnElTablero(ca);
-                //matrix.eliminarDeLaLista();
-            }
             this.pintarMatriz();
             Console.WriteLine("HA PASADO 1 SEGUNDO");
+            return true;
         }
 
         //Turno de Neo
-        public void turnoNeo(int xneo, int yneo, Neo neo)
+        public bool turnoNeo(int xneo, int yneo, Neo neo)
         {
             if(neo.isElegido())
             {
@@ -308,7 +312,11 @@ namespace Matrix
                         {
                             Personaje ca = this.getPersonaje();
                             setPersonajeCelda(x,y,ca);
-                            //matrix.eliminarDeLaLista();
+                            this.listaPersonajes.RemoveAt(0);
+                            if (this.listaPersonajes.Count() == 0)
+                            {
+                                return false;
+                            }
                         }
                     }
                 } 
@@ -334,6 +342,71 @@ namespace Matrix
                 setPersonajeCelda(xneo, yneo, personajeAuxilio);
             }
             Console.Write("Neo ha actuado");
+            return true;
+        }
+
+        //Turno de Smith
+        public void turnoSmith(Smith smith)
+        {
+            int capaInfec = RandomNumber.Aleatorio(0, smith.getCapaMaxInfec());
+            smith.setCapaInfec(capaInfec);
+
+            int xsmith=this.getxSmith();
+            int ysmith=this.getySmith();
+            int xneo = this.getxneo();
+            int yneo = this.getyneo();
+
+            int distancia = Math.Max(Math.Abs(xsmith-xneo),Math.Abs(ysmith-yneo));
+            int[,] auxRecorrido = new int[distancia, 2];
+
+            int sumaSmith = xsmith+ysmith;
+            int sumaNeo = xneo+yneo;
+
+            if(sumaNeo%2 == sumaSmith%2)
+            {
+                for (int i = 0; i<distancia; i++)
+                {
+                    if (xsmith > xneo)
+                    {
+                        xsmith--;
+                    }
+                    else if (xsmith < xneo)
+                    {
+                        xsmith++;
+                    }
+                    else
+                    {
+                        if (xsmith<this.matrizz.GetLength(0)/2)
+                        {
+                            xsmith++;
+                        }
+                        else { xsmith--; }
+                    }
+                    auxRecorrido[i, 0]=xsmith;
+                    if (ysmith > yneo)
+                    {
+                        ysmith--;
+                    }
+                    else if (ysmith < yneo)
+                    {
+                        ysmith++;
+                    }
+                    else
+                    {
+                        if (ysmith<this.matrizz.GetLength(0)/2)
+                        {
+                            ysmith++;
+                        }
+                        else { ysmith--; }
+                    }
+                    auxRecorrido[i, 1]=ysmith;
+
+                    if (this.matrizz[xsmith,ysmith] is Personaje && !(this.matrizz[xsmith,ysmith] is Neo && (smith.getCapaInfec() !=0)))
+                    {
+                        this.matrizz[xsmith, ysmith]=null;
+                    }
+                }
+            }
         }
     }
 }
