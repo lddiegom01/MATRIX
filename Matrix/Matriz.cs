@@ -9,15 +9,31 @@ namespace Matrix
 {
     internal class Matriz
     {
-        readonly int filas = 15;
-        readonly int columnas = 15;
+        // readonly int filas = 7;
+        // readonly int columnas = 7;
         public List<Personaje> listaPersonajes = new List<Personaje>();
         Personaje[,] matrizz;
 
-        public Matriz()
+        public Matriz(int locura)
         {
-            this.matrizz= new Personaje[filas,columnas];
+            this.matrizz= new Personaje[locura,locura];
             this.listaPersonajes.Clear();
+        }
+
+        //Metodos que devuelven las lineas y las columnas
+        public int getx() { return (int) this.matrizz.GetLength(0);}
+        public int gety() { return (int)this.matrizz.GetLength(1); }
+
+        //Devuelve el personaje introduciendo una celda
+        public Personaje getPersonajeCelda(int x, int y)
+        {
+            return this.matrizz[x,y];
+        }
+
+        //Devuelve la lista de personajes
+        public List<Personaje> getList()
+        {
+            return this.listaPersonajes;
         }
 
         //Metodo que añade un personaje a la lista de personajes de la matriz 
@@ -26,6 +42,11 @@ namespace Matrix
             this.listaPersonajes.Add(personaje);
         }
 
+        //Metodo que elimina el primer personaje de la lista
+        public void eliminarDeLaLista()
+        {
+            this.listaPersonajes.RemoveAt(0);
+        }
         //Devuelve solo el nombre de un personaje de la lista
         public string getNombreDePersonaje(int num)
         {
@@ -41,7 +62,7 @@ namespace Matrix
 
         public Personaje getPersonaje()
         {
-            return (Personaje) this.listaPersonajes.First();
+                return (Personaje)this.listaPersonajes.First();
         }
 
         //Mete en el tablero un personaje metido por parametro
@@ -50,16 +71,14 @@ namespace Matrix
             bool vacio = true;
             while (vacio) 
             {
-                int x = RandomNumber.Aleatorio(0, 14);
-                int y = RandomNumber.Aleatorio(0, 14);
+                int x = RandomNumber.Aleatorio(0, this.matrizz.GetLength(0));
+                int y = RandomNumber.Aleatorio(0, this.matrizz.GetLength(1));
                 if (this.matrizz[x, y] == null)
                 {
                     this.matrizz[x, y]=person;
                     vacio = false;
                 }
             }
-            
-            
         }
 
         //Imprime la matriz por pantalla de tal forma que hace un bucle por las filas,despues por las columnas
@@ -148,8 +167,8 @@ namespace Matrix
 
         public void meterPersonaje(Personaje personaje)
         {
-            int fila = RandomNumber.Aleatorio(0, 14);
-            int columna = RandomNumber.Aleatorio(0, 14);
+            int fila = RandomNumber.Aleatorio(0, this.matrizz.GetLength(0));
+            int columna = RandomNumber.Aleatorio(0, this.matrizz.GetLength(1));
 
             if(personaje is Personaje)
             {
@@ -158,6 +177,40 @@ namespace Matrix
                     this.matrizz[fila, columna] = personaje;
                 }
             }
+        }
+
+        public void turnoPersonajes()
+        {
+            int xmatriz = this.getx();
+            int ymatriz = this.gety();
+            bool listaTiene = true;
+            for (int fila = 0; fila < xmatriz; fila++)
+            {
+                for (int columna = 0; columna < ymatriz; columna++)
+                {
+                    Personaje personajeCheck = this.getPersonajeCelda(fila, columna);
+                    bool esNeo = personajeCheck is Neo;
+                    bool esSmith = personajeCheck is Smith;
+
+                    //matamos a los personajes que deben morir y que no sean smith y neo
+                    if (personajeCheck.getMort()>7 && !esNeo && !esSmith)
+                    {
+                        this.setCelda(fila, columna, null);
+                    }
+                    else
+                    {
+                        personajeCheck.masMuerte();
+                    }
+                }
+            }
+            while (!this.estaLlena())
+            {
+                Personaje ca = this.getPersonaje();
+                this.meterEnElTablero(ca);
+                //matrix.eliminarDeLaLista();
+            }
+            this.pintarMatriz();
+            Console.WriteLine("HA PASADO 1 SEGUNDO");
         }
     }
 }

@@ -71,11 +71,11 @@ namespace Matrix
 
 
         //Devuelve la mortalidad
-        int getMort() { return this.mortalidad; }
+        public int getMort() { return this.mortalidad; }
 
 
         //Aumenta en 1 la mortalidad del personaje
-        void masMuerte()
+        public void masMuerte()
         {
             this.mortalidad = mortalidad+1;
         }
